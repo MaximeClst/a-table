@@ -2,8 +2,8 @@ from pathlib import Path
 import json,re,html
 root=Path(__file__).resolve().parents[2];out=Path(__file__).parent/'dist'
 def fmt(x):return f'{x:g}'.replace('.',',')
-labels={'poulet':'Filet de poulet','steak':'Steak haché 20 % MG','thon':'Thon au naturel','sardines':'Sardines à l’huile','riz':'Riz blanc','pates':'Pâtes classiques','pdt':'Pommes de terre','haricots':'Haricots verts','tomate':'Tomates','concombre':'Concombre','pomme':'Pomme','poire':'Poire','banane':'Banane','cacahuete':'Beurre de cacahuète','huile':'Huile','whey':'Whey Cookies & cream','jus':'Jus de pomme sans sucres ajoutés','fromage_blanc':'Fromage blanc 0 %','oeuf':'Œufs entiers','biscotte_seigle':'Biscottes de seigle','galette':'Galettes de riz'}
-menus=json.loads((root/'menus/calculs-menus-v8.json').read_text());days=[]
+labels={'poulet':'Filet de poulet','steak':'Steak haché 20 % MG','thon':'Thon au naturel','sardines':'Sardines à l’huile','riz':'Riz blanc','pates':'Pâtes classiques','pdt':'Pommes de terre','haricots':'Haricots verts','tomate':'Tomates','concombre':'Concombre','pomme':'Pomme','poire':'Poire','banane':'Banane','cacahuete':'Beurre de cacahuète','huile':'Huile','whey':'Whey goût cookies','jus':'Jus de pomme sans sucres ajoutés','fromage_blanc':'Fromage blanc 0 %','oeuf':'Œufs entiers','biscotte_seigle':'Biscottes de seigle','galette':'Galettes de riz'}
+menus=json.loads((root/'menus/calculs-menus-v9.json').read_text());days=[]
 for name,day in menus.items():
  meals=[]
  for meal in day['prises']:
@@ -52,7 +52,7 @@ for c in chunks[1:]:
  heading,_,body=c.partition('\n');heading=heading.lstrip('# ')
  if not body.strip():continue
  steps.append({'title':heading,'html':render(body)})
-notes=(root/'MENUS-4-JOURS-V8.md').read_text();sections=re.split(r'(?=^## )',notes,flags=re.M)
+notes=(root/'MENUS-4-JOURS-V9.md').read_text();sections=re.split(r'(?=^## )',notes,flags=re.M)
 info=[{'title':c.split('\n')[0][3:],'html':render(c.split('\n',1)[1])} for c in sections if c.startswith(('## Pesées','## Cibles','## Idées','## Sources'))]
-(out/'data.json').write_text(json.dumps({'edition':'2026-10-18-v8','days':days,'shopping':shopping,'steps':steps,'info':info},ensure_ascii=False))
+(out/'data.json').write_text(json.dumps({'edition':'2026-10-20-v9','days':days,'shopping':shopping,'steps':steps,'info':info},ensure_ascii=False))
 print('4 journées,',sum(len(d['meals']) for d in days),'repas,',sum(len(g['items']) for g in shopping),'courses,',len(steps),'étapes')
